@@ -1,20 +1,20 @@
 # Step 1: Use the official Node.js image as the base image
 FROM node:16
 
-# Step 2: Set the working directory in the container to /usr/src/app/backend
-WORKDIR /usr/src/app/backend
+# Step 2: Set the working directory in the container to /usr/src/app
+WORKDIR /usr/src/app
 
 # Step 3: Copy package.json and package-lock.json from the backend directory first (for faster builds)
-COPY backend/package*.json ./
+COPY backend/package*.json ./backend/
 
 # Step 4: Install dependencies
-RUN npm install
+RUN npm install --prefix ./backend
 
 # Step 5: Copy the rest of the backend code into the container
-COPY backend/ ./
+COPY backend/ ./backend/
 
 # Step 6: Expose the port the app will run on
 EXPOSE 3000
 
-# Step 7: Command to run the application
-CMD ["npm", "start"]
+# Step 7: Command to run the application using nodemon
+CMD ["npm", "run", "start", "--prefix", "backend"]
