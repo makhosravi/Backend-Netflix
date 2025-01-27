@@ -19,5 +19,8 @@ WORKDIR /usr/src/app/backend
 # Step 7: Expose the port your app runs on
 # EXPOSE 3000
 
+# Use environment variables to pass configuration (e.g., for MongoDB URI)
+ENV NODE_ENV=production
+
 # Step 8: Start the Node.js application
 CMD ["node", "server.js"]
