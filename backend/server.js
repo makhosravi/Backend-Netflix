@@ -1,6 +1,5 @@
 //require('dotenv').config();
 import dotenv from 'dotenv';
-dotenv.config();
 
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -11,13 +10,15 @@ import movieRoutes from "./routes/movie.route.js";
 import tvRoutes from "./routes/tv.route.js";
 import searchRoutes from "./routes/search.route.js";
 
-import { ENV_VARS } from "./config/envVars.js";
+//import { ENV_VARS } from "./config/envVars.js";
 import { connectDB } from "./config/db.js";
 import { protectRoute } from "./middleware/protectRoute.js";
 
+dotenv.config();
+
 const app = express();
 
-const PORT = ENV_VARS.PORT;
+const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 
@@ -29,7 +30,7 @@ app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, tvRoutes);
 app.use("/api/v1/search", protectRoute, searchRoutes);
 
-if (ENV_VARS.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 	app.get("*", (req, res) => {

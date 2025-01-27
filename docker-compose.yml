@@ -1,28 +1,17 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    container_name: node_backend
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    environment:
-      - NODE_ENV=development
-      - MONGO_URI=${MONGO_URI}  # This will use the MONGO_URI from your .env file
-    depends_on:
-      - mongo
-    networks:
-      - backend_network
   backend:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app/backend
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+      - MONGO_URL=${MONGO_URL}
     env_file:
       - .env
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: ["node", "backend/server.js"]

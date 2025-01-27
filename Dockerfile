@@ -1,26 +1,20 @@
-# Step 1: Use an official Node.js runtime as the base image
-FROM node:18
+# Step 1: Use the official Node.js image as the base image
+FROM node:16
 
-# Step 2: Set the working directory in the container
-WORKDIR /usr/src/app
+# Step 2: Set the working directory in the container to /usr/src/app/backend
+WORKDIR /usr/src/app/backend
 
-# Step 3: Copy package.json and package-lock.json from the main directory
-COPY package*.json ./
+# Step 3: Copy package.json and package-lock.json from the backend directory first (for faster builds)
+COPY backend/package*.json ./
 
 # Step 4: Install dependencies
 RUN npm install
 
-# Step 5: Copy the backend directory contents into the working directory
-COPY backend ./backend
+# Step 5: Copy the rest of the backend code into the container
+COPY backend/ ./
 
-# Step 6: Set the working directory to the backend folder
-WORKDIR /usr/src/app/backend
+# Step 6: Expose the port the app will run on
+EXPOSE 3000
 
-# Step 7: Expose the port your app runs on
-# EXPOSE 3000
-
-# Use environment variables to pass configuration (e.g., for MongoDB URI)
-ENV NODE_ENV=development
-
-# Step 8: Start the Node.js application
-CMD ["node", "server.js"]
+# Step 7: Command to run the application
+CMD ["npm", "start"]
