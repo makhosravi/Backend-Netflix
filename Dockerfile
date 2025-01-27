@@ -4,11 +4,11 @@ FROM node:16
 # Step 2: Set the working directory in the container to /usr/src/app
 WORKDIR /usr/src/app
 
-# Step 3: Copy package.json and package-lock.json from the backend directory first (for faster builds)
-COPY backend/package*.json ./backend/
+# Step 3: Copy package.json and package-lock.json from the root directory (not backend)
+COPY package*.json ./
 
 # Step 4: Install dependencies
-RUN npm install --prefix ./backend
+RUN npm install
 
 # Step 5: Copy the rest of the backend code into the container
 COPY backend/ ./backend/
@@ -17,4 +17,4 @@ COPY backend/ ./backend/
 EXPOSE 3000
 
 # Step 7: Command to run the application using nodemon
-CMD ["npm", "run", "start", "--prefix", "backend"]
+CMD ["npm", "run", "dev"]
