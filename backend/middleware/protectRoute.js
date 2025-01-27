@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 //import { ENV_VARS } from "../config/envVars.js";
