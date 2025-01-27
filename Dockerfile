@@ -20,7 +20,7 @@ WORKDIR /usr/src/app/backend
 # EXPOSE 3000
 
 # Use environment variables to pass configuration (e.g., for MongoDB URI)
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 # Step 8: Start the Node.js application
 CMD ["node", "server.js"]
