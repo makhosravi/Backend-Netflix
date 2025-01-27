@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 
 import express from "express";
+import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import path from "path";
 
