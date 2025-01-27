@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Step 4: Install dependencies
-RUN node install
+RUN npm install
 
 # Step 5: Copy the rest of the backend code into the container
 COPY backend/ ./backend/
@@ -20,4 +20,4 @@ RUN chmod -R 755 /usr/src/app/backend
 EXPOSE 3000
 
 # Step 7: Command to run the application using nodemon
-CMD ["node", "run", "dev"]
+CMD ["npm", "run", "dev"]
