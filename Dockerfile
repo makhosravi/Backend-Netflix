@@ -17,7 +17,7 @@ COPY backend ./backend
 WORKDIR /usr/src/app/backend
 
 # Step 7: Expose the port your app runs on
-EXPOSE 3000
+# EXPOSE 3000
 
 # Step 8: Start the Node.js application
 CMD ["node", "server.js"]
