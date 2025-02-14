@@ -13,17 +13,23 @@ export const protectRoute = async (req, res, next) => {
 			return res.status(401).json({ success: false, message: "Unauthorized - No Token Provided" });
 		}
 
+		console.log("protectRoute ==> passed token test!");
+
 		const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
 
 		if (!decoded) {
 			return res.status(401).json({ success: false, message: "Unauthorized - Invalid Token" });
 		}
 
+		console.log("protectRoute ==> passed decode test!");
+
 		const user = await User.findById(decoded.userId).select("-password");
 
 		if (!user) {
 			return res.status(404).json({ success: false, message: "User not found" });
 		}
+
+		console.log("protectRoute ==> passed user test!");
 
 		req.user = user;
 
