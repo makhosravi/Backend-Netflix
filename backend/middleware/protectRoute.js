@@ -21,6 +21,8 @@ export const protectRoute = async (req, res, next) => {
     		return res.status(401).json({ success: false, message: "Unauthorized - Invalid Token Format" });
 		}
 
+		console.log("protectRoute ==> passed token parts: " , tokenParts[1]);
+
 		let decoded;
     try {
         decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
