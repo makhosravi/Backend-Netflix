@@ -5,9 +5,8 @@ export async function getTrendingMovie(req, res) {
 		const data = await fetchFromTMDB("https://api.themoviedb.org/3/trending/movie/day?language=en-US");
 		const limited = data.results.slice(0, 5);
 		res.json({ success: true, content: limited });
-		console.log("movie controller ==> passed fetch data from imbd");
 	} catch (error) {
-		console.log("movie controller ==> imdm data fetch failure");
+		console.log("movie controller ==> TMDB data fetch failure");
 		res.status(500).json({ success: false, message: "Internal Server Error" });
 	}
 }
