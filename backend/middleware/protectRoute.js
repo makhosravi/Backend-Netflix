@@ -21,7 +21,19 @@ export const protectRoute = async (req, res, next) => {
     		return res.status(401).json({ success: false, message: "Unauthorized - Invalid Token Format" });
 		}
 
-		const decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
+		let decoded;
+    try {
+        decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
+    } catch (error) {
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).json({ success: false, message: "Token expired" });
+        }
+        if (error.name === "JsonWebTokenError") {
+            return res.status(401).json({ success: false, message: "Invalid token" });
+        }
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+
 
 		if (!decoded) {
 			return res.status(401).json({ success: false, message: "Unauthorized - Invalid Token" });
