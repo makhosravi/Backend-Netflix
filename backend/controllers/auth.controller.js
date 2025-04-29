@@ -51,7 +51,7 @@ export async function signup(req, res) {
 				...newUser._doc,
 				password: undefined,
 				access_token:accessToken,
-				refres_token: refreshToken,
+				refresh_token: refreshToken,
 			},
 		});
 	} catch (error) {
@@ -87,7 +87,7 @@ export async function login(req, res) {
 				...user._doc,
 				password: undefined,
 				access_token:accessToken,
-				refres_token: refreshToken,
+				refresh_token: refreshToken,
 			},
 		});
 	} catch (error) {
