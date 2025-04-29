@@ -20,7 +20,7 @@ export const protectRoute = async (req, res, next) => {
 
 		let decoded;
     try {
-        decoded = jwt.verify(tokenParts[1], process.env.JWT_SECRET);
+        decoded = jwt.verify(tokenParts[1], process.env.ACCESS_TOKEN_SECRET);
     } catch (error) {
         if (error.name === "TokenExpiredError") {
             return res.status(401).json({ success: false, message: "Token expired" });

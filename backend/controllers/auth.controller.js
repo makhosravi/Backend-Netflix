@@ -42,14 +42,15 @@ export async function signup(req, res) {
 
 		await newUser.save();
 
-		const { accessToken } = await generateTokenAndSetCookie(newUser._id, res);
+		const { accessToken, refreshToken } = await generateTokenAndSetCookie(newUser._id, res);
 
 		res.status(201).json({
 			success: true,
 			user: {
 				...newUser._doc,
 				password: undefined,
-				token:accessToken,
+				access_token:accessToken,
+				refres_token: refreshToken,
 			},
 		});
 	} catch (error) {
@@ -77,14 +78,15 @@ export async function login(req, res) {
 			return res.status(400).json({ success: false, message: "Invalid credentials" });
 		}
 
-		const { accessToken } = generateTokenAndSetCookie(user._id, res);
+		const { accessToken, refreshToken } = generateTokenAndSetCookie(user._id, res);
 
 		res.status(200).json({
 			success: true,
 			user: {
 				...user._doc,
 				password: undefined,
-				token: accessToken,
+				access_token:accessToken,
+				refres_token: refreshToken,
 			},
 		});
 	} catch (error) {
@@ -95,7 +97,18 @@ export async function login(req, res) {
 
 export async function logout(req, res) {
 	try {
-		res.clearCookie("jwt-netflix");
+		// Clear both access and refresh token cookies
+		res.clearCookie("jwt-netflix", {
+			httpOnly: true,
+			sameSite: "Strict",
+			secure: process.env.NODE_ENV !== "development",
+		});
+
+		res.clearCookie("refreshToken", {
+			httpOnly: true,
+			sameSite: "Strict",
+			secure: process.env.NODE_ENV !== "development",
+		});
 		res.status(200).json({ success: true, message: "Logged out successfully" });
 	} catch (error) {
 		console.log("Error in logout controller", error.message);
@@ -113,29 +126,41 @@ export async function authCheck(req, res) {
 	}
 }
 
-export const refreshAccessToken = (req, res) => {
-	const token = req.cookies.refreshToken;
-
-	if (!token) {
-		return res.status(401).json({ success: false, message: 'Refresh token missing' });
-	}
-
+export const refreshAccessToken = async (req, res) => {
 	try {
-		const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, {
-			expiresIn: '15m',
-		});
+		const refreshToken = req.cookies.refreshToken;
 
-		// Optional: Set the new access token as a cookie again
-		res.cookie('jwt-netflix', accessToken, {
+		if (!refreshToken) {
+			return res.status(401).json({ success: false, message: "Refresh token missing" });
+		}
+
+		let decoded;
+		try {
+			decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+		} catch (err) {
+			return res.status(401).json({ success: false, message: "Invalid or expired refresh token" });
+		}
+
+		const accessToken = jwt.sign(
+			{ userId: decoded.userId },
+			process.env.ACCESS_TOKEN_SECRET,
+			{ expiresIn: "15m" }
+		);
+
+		// Optionally set new access token cookie
+		res.cookie("jwt-netflix", accessToken, {
 			httpOnly: true,
-			sameSite: 'Strict',
-			secure: process.env.NODE_ENV !== 'development',
-			maxAge: 15 * 60 * 1000, // 15 mins
+			sameSite: "Strict",
+			secure: process.env.NODE_ENV !== "development",
+			maxAge: 15 * 60 * 1000, // 15 minutes
 		});
 
-		res.status(200).json({ success: true, accessToken });
-	} catch (err) {
-		return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+		return res.status(200).json({
+			success: true,
+			accessToken,
+		});
+	} catch (error) {
+		console.error("refreshAccessToken error:", error.message);
+		return res.status(500).json({ success: false, message: "Internal Server Error" });
 	}
 };
