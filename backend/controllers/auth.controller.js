@@ -126,7 +126,7 @@ export async function authCheck(req, res) {
 	}
 }
 
-export const refreshAccessToken = async (req, res) => {
+export async function refreshAccessToken (req, res) {
 	try {
 		const refreshToken = req.cookies.refreshToken;
 
