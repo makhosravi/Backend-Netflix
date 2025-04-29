@@ -158,7 +158,7 @@ export async function refreshAccessToken (req, res) {
 
 		return res.status(200).json({
 			success: true,
-			accessToken,
+			access_token:accessToken,
 		});
 	} catch (error) {
 		console.error("refreshAccessToken error:", error.message);
