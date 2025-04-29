@@ -128,7 +128,7 @@ export async function authCheck(req, res) {
 
 export async function refreshAccessToken (req, res) {
 	try {
-		const refreshToken = req.cookies.refreshToken;
+		const refreshToken = req.body.refreshToken;
 
 		if (!refreshToken) {
 			return res.status(401).json({ success: false, message: "Refresh token missing" });
