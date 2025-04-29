@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
-import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import { generateTokenAndSetCookie } from "../utils/generateTokensAndSetCookies.js";
 
 export async function signup(req, res) {
 	try {
@@ -40,14 +40,16 @@ export async function signup(req, res) {
 			image,
 		});
 
-		const token = await generateTokenAndSetCookie(newUser._id, res);
 		await newUser.save();
+
+		const { accessToken } = await generateTokenAndSetCookie(newUser._id, res);
 
 		res.status(201).json({
 			success: true,
 			user: {
 				...newUser._doc,
-				token:token
+				password: undefined,
+				token:accessToken,
 			},
 		});
 	} catch (error) {
@@ -75,13 +77,14 @@ export async function login(req, res) {
 			return res.status(400).json({ success: false, message: "Invalid credentials" });
 		}
 
-		const token = generateTokenAndSetCookie(user._id, res);
+		const { accessToken } = generateTokenAndSetCookie(user._id, res);
 
 		res.status(200).json({
 			success: true,
 			user: {
 				...user._doc,
-				token: token
+				password: undefined,
+				token: accessToken,
 			},
 		});
 	} catch (error) {
@@ -109,3 +112,30 @@ export async function authCheck(req, res) {
 		res.status(500).json({ success: false, message: "Internal server error" });
 	}
 }
+
+export const refreshAccessToken = (req, res) => {
+	const token = req.cookies.refreshToken;
+
+	if (!token) {
+		return res.status(401).json({ success: false, message: 'Refresh token missing' });
+	}
+
+	try {
+		const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: '15m',
+		});
+
+		// Optional: Set the new access token as a cookie again
+		res.cookie('jwt-netflix', accessToken, {
+			httpOnly: true,
+			sameSite: 'Strict',
+			secure: process.env.NODE_ENV !== 'development',
+			maxAge: 15 * 60 * 1000, // 15 mins
+		});
+
+		res.status(200).json({ success: true, accessToken });
+	} catch (err) {
+		return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+	}
+};
