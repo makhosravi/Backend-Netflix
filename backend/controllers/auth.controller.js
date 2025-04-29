@@ -138,10 +138,7 @@ export async function refreshAccessToken (req, res) {
 		let decoded;
 		try {
 			decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-			console.log("Decoded refresh token:", decoded);
 		} catch (err) {
-			console.error("Token verification failed:", err);  // Log the error details
-			console.error("JWT verification error:", err.message);
 			return res.status(401).json({ success: false, message: "Invalid or expired refresh token" });
 		}
 
