@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
-import { generateTokenAndSetCookie } from "../utils/generateTokensAndSetCookies.js";
+import { generateTokensAndSetCookies } from "../utils/generateTokensAndSetCookies.js";
 
 export async function signup(req, res) {
 	try {
@@ -42,7 +42,7 @@ export async function signup(req, res) {
 
 		await newUser.save();
 
-		const { accessToken, refreshToken } = await generateTokenAndSetCookie(newUser._id, res);
+		const { accessToken, refreshToken } = await generateTokensAndSetCookies(newUser._id, res);
 
 		res.status(201).json({
 			success: true,
@@ -78,7 +78,7 @@ export async function login(req, res) {
 			return res.status(400).json({ success: false, message: "Invalid credentials" });
 		}
 
-		const { accessToken, refreshToken } = generateTokenAndSetCookie(user._id, res);
+		const { accessToken, refreshToken } = generateTokensAndSetCookies(user._id, res);
 
 		res.status(200).json({
 			success: true,
