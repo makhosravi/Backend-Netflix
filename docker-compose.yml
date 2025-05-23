@@ -8,8 +8,8 @@ services:
     mem_limit: 1024m
     ports:
       - "4000:4000"
-    volumes:
-      - ./backend:/usr/src/app/backend
+    #volumes:
+    #  - ./backend:/usr/src/app/backend
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
