@@ -26,6 +26,8 @@ const __dirname = path.resolve();
 app.use(express.json()); // will allow us to parse req.body
 app.use(cookieParser());
 
+console.log("MONGO_URI:", process.env.MONGO_URI);
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, tvRoutes);
