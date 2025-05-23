@@ -8,19 +8,21 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Step 4: Install dependencies
-RUN npm install
+RUN npm install --no-optional
 
 # Step 5: Copy the rest of the backend code into the container
 COPY backend/ ./backend/
 
 # Set correct permissions (optional, but can help avoid permission issues)
-RUN chmod -R 755 /usr/src/app/backend
-
-COPY wait-for-it.sh /usr/src/app/wait-for-it.sh
-RUN chmod +x /usr/src/app/wait-for-it.sh
+# Copy wait script and make it executable
+COPY wait-for-it.sh ./wait-for-it.sh
+RUN chmod +x wait-for-it.sh && chmod -R 755 ./backend
 
 # Expose ports: 4000 for backend
 EXPOSE 4000
+
+# Set environment
+ENV NODE_ENV=development
 
 # Step 7: Command to run the application using nodemon
 CMD ["./wait-for-it.sh", "mongo:27017", "--", "npm", "run", "dev"]
