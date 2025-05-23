@@ -13,9 +13,13 @@ services:
     depends_on:
       - mongo
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - PORT=${PORT}
-      - MONGO_URL=${MONGO_URL}
+      - NODE_ENV
+      - PORT
+      - MONGO_URI
+      - JWT_SECRET
+      - ACCESS_TOKEN_SECRET
+      - REFRESH_TOKEN_SECRET
+      - TMDB_API_KEY
     env_file:
       - .env
   mongo:
