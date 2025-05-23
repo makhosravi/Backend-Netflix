@@ -34,7 +34,10 @@ services:
       - mongo-data:/data/db
     restart: unless-stopped
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/netflix-clone --quiet
+      test: [
+        "CMD-SHELL",
+        "echo 'db.runCommand({ ping: 1 })' | mongo --username mongoadmin --password 'Admin1342Mongo*' --authenticationDatabase admin --quiet"
+      ]
       interval: 10s
       timeout: 5s
       retries: 5
