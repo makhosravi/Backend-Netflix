@@ -30,6 +30,7 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: unless-stopped
+    command: ["--bind_ip_all"]
   mongo-express:
     image: mongo-express
     ports:
