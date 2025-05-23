@@ -24,6 +24,9 @@ services:
     env_file:
       - .env
   mongo:
+    build: 
+      context: .
+      dockerfile: Dockerfile.mongo
     image: mongo:4.4
     ports:
       - "27017:27017"
@@ -36,7 +39,7 @@ services:
     healthcheck:
       test: [
         "CMD-SHELL",
-        "echo 'db.runCommand({ ping: 1 })' | mongo --username mongoadmin --password 'Admin1342Mongo*' --authenticationDatabase admin --quiet"
+        "echo 'db.runCommand({ ping: 1 })' | mongo -u mongoadmin -p Admin1342Mongo* --authenticationDatabase admin --quiet"
       ]
       interval: 10s
       timeout: 5s

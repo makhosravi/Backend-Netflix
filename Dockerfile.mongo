@@ -1,0 +1,8 @@
+# Dockerfile.mongo
+FROM mongo:4.4
+
+# Install mongo shell tools and netcat for health checks
+RUN apt-get update && \
+    apt-get install -y mongodb-clients netcat && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
