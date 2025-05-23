@@ -16,8 +16,11 @@ COPY backend/ ./backend/
 # Set correct permissions (optional, but can help avoid permission issues)
 RUN chmod -R 755 /usr/src/app/backend
 
+COPY wait-for-it.sh /usr/src/app/wait-for-it.sh
+RUN chmod +x /usr/src/app/wait-for-it.sh
+
 # Expose ports: 4000 for backend
 EXPOSE 4000
 
 # Step 7: Command to run the application using nodemon
-CMD ["npm", "run", "dev"]
+CMD ["./wait-for-it.sh", "mongo:27017", "--", "npm", "run", "dev"]
