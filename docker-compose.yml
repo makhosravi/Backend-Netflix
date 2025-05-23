@@ -37,6 +37,6 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: //*Admin1342Server
+      ME_CONFIG_BASICAUTH_PASSWORD: Admin1342Server*
 volumes:
   mongo-data:
