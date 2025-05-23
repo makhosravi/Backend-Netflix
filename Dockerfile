@@ -25,4 +25,4 @@ EXPOSE 4000
 ENV NODE_ENV=development
 
 # Step 7: Command to run the application using nodemon
-CMD ["./wait-for-it.sh", "mongo:27017", "--timeout=90", "--strict", "--", "npm", "run", "dev"]
+CMD ["./wait-for-it.sh", "mongo:27017", "--timeout=30", "--", "npm", "run", "dev"]
