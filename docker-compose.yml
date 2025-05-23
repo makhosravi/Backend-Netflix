@@ -10,8 +10,7 @@ services:
     ports:
       - "4000:4000"
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
     restart: on-failure
     environment:
       - NODE_ENV=${NODE_ENV}
@@ -33,12 +32,6 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: unless-stopped
-    healthcheck:
-      test: >
-        echo 'db.runCommand({ ping: 1 })' | mongo -u mongoadmin -p Admin1342Mongo* --authenticationDatabase admin --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 5
   mongo-express:
     image: mongo-express
     ports:
