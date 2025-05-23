@@ -41,6 +41,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
       ME_CONFIG_MONGODB_ADMINPASSWORD: Admin1342Mongo*
       ME_CONFIG_MONGODB_AUTH_DATABASE: netflixclone
+      ME_CONFIG_MONGODB_AUTH_SOURCE: admin
     depends_on:
       - mongo
     restart: unless-stopped
