@@ -32,7 +32,7 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: unless-stopped
-    command: ["mongod", "--port", "27030"]
+    #command: ["mongod", "--port", "27030"]
   mongo-express:
     image: mongo-express
     ports:
