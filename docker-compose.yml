@@ -24,6 +24,8 @@ services:
       - .env
   mongo:
     image: mongo:4.4
+    ports:
+      - "27030:27030"
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: Admin1342Mongo*
@@ -43,6 +45,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: Admin1342Mongo*
       ME_CONFIG_MONGODB_AUTH_DATABASE: netflixclone
       ME_CONFIG_MONGODB_AUTH_SOURCE: admin
+      ME_CONFIG_MONGODB_PORT: 27030
     depends_on:
       - mongo
     restart: unless-stopped
