@@ -13,6 +13,7 @@ services:
     #  - ./backend:/usr/src/app/backend
     depends_on:
       - mongo
+    restart: on-failure  # Automatically restart the container on failure
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
