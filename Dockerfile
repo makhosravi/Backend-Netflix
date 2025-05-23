@@ -14,7 +14,7 @@ RUN npm install
 COPY backend/ ./backend/
 
 # Set correct permissions (optional, but can help avoid permission issues)
-RUN chmod -R 755 /usr/src/app/backend
+RUN chmod -R 755 /backend
 
 # Step 6: Expose the port the app will run on
 EXPOSE 4000
