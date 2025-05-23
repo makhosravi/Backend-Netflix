@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     mem_limit: 1024m
     ports:
-      - "3000:3000"
+      - "4000:4000"
     volumes:
       - ./backend:/usr/src/app/backend
     environment:

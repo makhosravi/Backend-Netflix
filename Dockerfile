@@ -17,7 +17,7 @@ COPY backend/ ./backend/
 RUN chmod -R 755 /usr/src/app/backend
 
 # Step 6: Expose the port the app will run on
-EXPOSE 3000
+EXPOSE 4000
 
 # Step 7: Command to run the application using nodemon
 CMD ["npm", "run", "dev"]
