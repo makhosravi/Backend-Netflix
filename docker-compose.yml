@@ -9,7 +9,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./backend:/backend
+      - ./backend:/usr/src/app/backend
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
