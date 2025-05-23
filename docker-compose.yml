@@ -37,10 +37,8 @@ services:
       - mongo-data:/data/db
     restart: unless-stopped
     healthcheck:
-      test: [
-        "CMD-SHELL",
-        "echo 'db.runCommand({ ping: 1 })' | mongo -u mongoadmin -p Admin1342Mongo* --authenticationDatabase admin --quiet"
-      ]
+      test: >
+        echo 'db.runCommand({ ping: 1 })' | mongo -u mongoadmin -p Admin1342Mongo* --authenticationDatabase admin --quiet
       interval: 10s
       timeout: 5s
       retries: 5
