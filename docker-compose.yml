@@ -25,12 +25,10 @@ services:
       - .env
   mongo:
     image: mongo
-    container_name: mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-
   mongo-express:
     image: mongo-express
     restart: always
@@ -38,6 +36,5 @@ services:
       - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
-    
 volumes:
   mongo-data:
