@@ -34,7 +34,7 @@ services:
       - mongo-data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d:ro
     restart: unless-stopped
-    command: ["mongod", "--auth", "--port", "${MONGO_PORT}"]
+    #command: ["mongod", "--auth", "--port", "${MONGO_PORT}"]
   # mongo-express:
   #   image: mongo-express
   #   ports:

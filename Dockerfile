@@ -19,7 +19,7 @@ COPY wait-for-it.sh ./wait-for-it.sh
 RUN chmod +x wait-for-it.sh && chmod -R 755 ./backend
 
 # Expose ports: 4000 for backend
-EXPOSE 4000 27030
+EXPOSE 4000 27017
 
 # Set environment
 ENV NODE_ENV=development
