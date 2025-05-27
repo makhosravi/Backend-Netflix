@@ -22,9 +22,11 @@ services:
       - TMDB_API_KEY=${TMDB_API_KEY}
     env_file:
       - .env
+    networks:
+      - netflix-network
   mongo:
     image: mongo:4.4
-    container_name: mongo-container
+    #container_name: mongo-container
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     environment:
@@ -33,9 +35,11 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DB}
     volumes:
       - mongo-data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d:ro
+      #- ./mongo-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - netflix-network
     restart: unless-stopped
-    command: ["mongod", "--auth", "--port", "${MONGO_PORT}"]
+    #command: ["mongod", "--auth", "--port", "${MONGO_PORT}"]
   mongo-express:
     image: mongo-express
     ports:
@@ -51,6 +55,12 @@ services:
       ME_CONFIG_MONGODB_PORT: 27017
     depends_on:
       - mongo
+    networks:
+      - netflix-network
     restart: unless-stopped
 volumes:
   mongo-data:
+
+networks:
+  netflix-network:
+    driver: bridge
