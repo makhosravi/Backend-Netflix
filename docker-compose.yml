@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     image: backend
-    #mem_limit: 1024m
     ports:
       - "${PORT}:${PORT}"
     depends_on:
@@ -38,7 +37,6 @@ services:
       - netflix-network
   mongo:
     image: mongo:4.4
-    #container_name: mongo-container
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     environment:
@@ -47,11 +45,9 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DB}
     volumes:
       - mongo-data:/data/db
-      #- ./mongo-init:/docker-entrypoint-initdb.d:ro
     networks:
       - netflix-network
     restart: unless-stopped
-    #command: ["mongod", "--auth", "--port", "${MONGO_PORT}"]
   mongo-express:
     image: mongo-express
     ports:
