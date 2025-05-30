@@ -13,12 +13,12 @@ RUN npm install --no-optional
 # Step 5: Copy the rest of the backend code into the container
 COPY backend/ ./backend/
 
-# Set working directory to backend
-WORKDIR /usr/src/app/backend
-
 # Set correct permissions (optional, but can help avoid permission issues)
 # Copy wait script and make it executable
 RUN chmod -R 755 ./backend
+
+# Set working directory to backend
+WORKDIR /usr/src/app/backend
 
 # Expose ports: 4000 for backend
 EXPOSE 4000 27017 8081
