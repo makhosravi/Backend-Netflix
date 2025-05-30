@@ -17,9 +17,6 @@ COPY backend/ ./backend/
 # Copy wait script and make it executable
 RUN chmod -R 755 ./backend
 
-# Set working directory to backend
-WORKDIR /usr/src/app/backend
-
 # Expose ports: 4000 for backend
 EXPOSE 4000 27017 8081
 
