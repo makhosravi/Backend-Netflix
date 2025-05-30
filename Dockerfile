@@ -15,8 +15,7 @@ COPY backend/ ./backend/
 
 # Set correct permissions (optional, but can help avoid permission issues)
 # Copy wait script and make it executable
-COPY wait-for-it.sh ./wait-for-it.sh
-RUN chmod +x wait-for-it.sh && chmod -R 755 ./backend
+RUN chmod -R 755 ./backend
 
 # Expose ports: 4000 for backend
 EXPOSE 4000 27017 8081
